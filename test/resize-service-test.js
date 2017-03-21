@@ -152,6 +152,34 @@ describe('[images-resizer][resize-service]', function () {
             img.src = 'base/fixture/img.jpg';
         });
 
+        it('should return a base64 cropped image with specific height and width', function (done) {
+            var img = new Image();
+            img.onload = function () {
+                var data = service.resizeImageWidthHeight(img, 300, 300, 2, 'image/jpeg', true);
+
+                expect(data).to.be.not.null;
+                expect(data).to.contain('data:image/jpeg;base64');
+                //check size of the returned image
+                service.createImage(data)
+                    .then(function (image) {
+                        expect(image).to.be.not.null;
+                        expect(image.width).to.be.equal(300);
+                        expect(image.height).to.be.equal(300);
+                        done();
+                    })
+                    .catch(function () {
+                        done('fail');
+                    });
+
+                setTimeout(function () {
+                    $rootScope.$digest();
+                }, 500);
+            };
+
+            img.src = 'base/fixture/img.jpg';
+        });
+
+
         it('should return a base64 image with specific height and width to png format', function (done) {
             var img = new Image();
             img.onload = function () {

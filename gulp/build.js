@@ -4,7 +4,7 @@ const gulp = require('gulp');
 const uglify = require('gulp-uglify');
 const concat = require('gulp-concat');
 
-gulp.task('build', ['clean'], function () {
+gulp.task('build', function () {
     return gulp
         .src(['src/resize.js', 'src/*.js'])
         .pipe(concat('angular-images-resizer.js'))
