@@ -51,10 +51,15 @@ angular.module('app', function ($document, $log, $scope, resizeService) {
 ```
 
 or create a directive and use it with 
+
 ```<img-resize img-src="[url]" width="[#]" height="[#]" crop="[true/false]"></img-resize>```
+
 or
+
 ```<img-resize img-src="[url]" width="[#]"></img-resize>```
+
 or
+
 ```<img-resize img-src="[url]" height="[#]"></img-resize>```
 
 ```(function() {
