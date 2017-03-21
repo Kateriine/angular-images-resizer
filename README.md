@@ -16,15 +16,7 @@ You can test this module on this site example: http://fberthelot.github.io/angul
 In this version the `resizeService.resizeImage` function return a promise. No need to use a callback anymore.
 
 ## Get started
-Add this module to your project with bower or npm:
-
-```bash 
-bower install angular-images-resizer
-```
-
-```bash
-npm install angular-images-resizer
-```
+Add this module to your project
 
 Add the component to your app:
 ```javascript
