@@ -1,5 +1,7 @@
 # Angular-image-resizer
 
+Fork [from Florent Berthelot](https://github.com/FBerthelot/angular-images-resizer)
+
 [![Build Status](https://travis-ci.org/FBerthelot/angular-images-resizer.svg?branch=master)](https://travis-ci.org/FBerthelot/angular-images-resizer)
 [![Coverage Status](https://img.shields.io/coveralls/FBerthelot/angular-images-resizer.svg)](https://coveralls.io/r/FBerthelot/angular-images-resizer)
 [![devDependency Status](https://david-dm.org/FBerthelot/angular-images-resizer/dev-status.svg)](https://david-dm.org/FBerthelot/angular-images-resizer#info=devDependencies)
@@ -46,6 +48,71 @@ angular.module('app', function ($document, $log, $scope, resizeService) {
       $document[0].querySelector('body').appendChild(imageResized);
     })
     .catch($log.error); // Always catch a promise :)
+```
+
+or create a directive and use it with 
+```<img-resize img-src="[url]" width="[#]" height="[#]" crop="[true/false]"></img-resize>```
+or
+```<img-resize img-src="[url]" width="[#]"></img-resize>```
+or
+```<img-resize img-src="[url]" height="[#]"></img-resize>```
+
+```(function() {
+  'use strict';
+
+  angular
+    .module('catherinearnould')
+    .directive('imgResize', imgResize);
+
+  function imgResize() {
+
+    var directive = {
+      restrict: 'E',
+      scope: {
+        imgSrc: "=imgSrc",
+        width: "=width",
+        height: "=height",
+        crop: "=crop",
+      },
+      templateUrl: 'app/components/imgResize/imgResize.html',
+      controller: ['$document', '$log', '$scope', 'resizeService', imgResizeController],
+      controllerAs: 'imgResCtrl',
+      bindToController: true
+    };
+
+    return directive;
+    
+    function imgResizeController($document, $log, $scope, resizeService) {
+      var dir = this, 
+      options = {
+          width: dir.width,  
+          crop: false, 
+          crossOrigin: true
+      }
+      if( dir.height ) {
+        options = {
+            height: dir.height, 
+            crop: false, 
+            crossOrigin: true
+        }
+      }
+      if( dir.crop && dir.width && dir.height ) {
+        options = {
+            width: dir.width, 
+            height: dir.height, 
+            crop: dir.crop, 
+            crossOrigin: true
+        }
+      }
+      resizeService
+        .resizeImage(dir.imgSrc, options)
+        .then(function(image){    
+          dir.image=image;
+        })
+        .catch($log.error); // Always catch a promise :)
+    }
+  }
+})();
 ```
 
 ## Availables functions
